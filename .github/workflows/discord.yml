@@ -3,6 +3,9 @@ on:
   schedule:
     # Run every day of the week at 6am
     - cron:  '0 6 * * *'
+  push:
+    branches: [ main ]
+
 jobs:
   build:
     runs-on: ubuntu-latest   
