@@ -39,7 +39,8 @@ webhook=WEBHOOK_URL
 username=AuroraEditor
 title=Aurora Editor Stats
 description="These are the statistics for [AuroraEditor/%s](https://github.com/AuroraEditor/%s),\r\nupdated on %s."
-url=https://auroraeditor.com```
+url=https://auroraeditor.com
+```
 
 > Note:
 > Change `WEBHOOK_URL` to your own discord webhook url.
