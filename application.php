@@ -104,12 +104,12 @@ function sendToDiscord($repo)
 
     // Add the stargazers.
     $discordEmbedArray["fields"][] = array(
-        "name" => sprintf(
+        "name" => "⭐️ Stars",
+        "value" => sprintf(
             "[%s](%s)",
-            "⭐️ Stars",
+            $repo['stargazers_count'] ?? 0,
             ($repo['html_url'] ?? '') . '/stargazers',
         ),
-        "value" => $repo['stargazers_count'] ?? 0,
         "inline" => true
     );
 

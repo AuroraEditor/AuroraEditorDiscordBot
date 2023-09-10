@@ -27,7 +27,7 @@ jobs:
           webhook=$WEBHOOK
           username=AuroraEditor
           title=Aurora Editor Stats
-          description=\"These are the statistics for [AuroraEditor/%s](https://github.com/AuroraEditor/%s),\r\nupdated on %s.\"
+          description=\"These are the statistics for [%s](https://github.com/AuroraEditor/%s),\r\nupdated on %s.\"
           url=https://auroraeditor.com" > config.ini
 
       - name: Run & Send
