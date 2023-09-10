@@ -16,19 +16,19 @@ jobs:
           WEBHOOK: ${{ secrets.DISCORD_HOOK }}
         run: |
           echo "[settings]
-stats=stars,forks,watchers,open_issues
-
-[github]
-url=https://api.github.com/users/AuroraEditor/repos
-repos[]=AuroraEditor
-repos[]=auroraeditor.com
-
-[discord]
-webhook=$WEBHOOK
-username=AuroraEditor
-title=Aurora Editor Stats
-description=\"These are the statistics for [AuroraEditor/%s](https://github.com/AuroraEditor/%s),\r\nupdated on %s.\"
-url=https://auroraeditor.com" > config.ini
+          stats=stars,forks,watchers,open_issues
+          
+          [github]
+          url=https://api.github.com/users/AuroraEditor/repos
+          repos[]=AuroraEditor
+          repos[]=auroraeditor.com
+          
+          [discord]
+          webhook=$WEBHOOK
+          username=AuroraEditor
+          title=Aurora Editor Stats
+          description=\"These are the statistics for [AuroraEditor/%s](https://github.com/AuroraEditor/%s),\r\nupdated on %s.\"
+          url=https://auroraeditor.com" > config.ini
 
       - name: Run & Send
         run: php application.php
