@@ -1,0 +1,32 @@
+name: Re-Deploy website
+on:
+  schedule:
+    # Run every day of the week at 6am
+    - cron:  '0 6 * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest   
+    steps:
+    - uses: actions/checkout@v2
+    - name: Create config.ini
+      env:
+        WEBHOOK: ${{ secrets.DISCORD_HOOK }}
+      run: |
+        echo "[settings]
+stats=stars,forks,watchers,open_issues
+
+[github]
+url=https://api.github.com/users/AuroraEditor/repos
+repos[]=AuroraEditor
+repos[]=auroraeditor.com
+
+[discord]
+webhook=$WEBHOOK
+username=AuroraEditor
+title=Aurora Editor Stats
+description=\"These are the statistics for [AuroraEditor/%s](https://github.com/AuroraEditor/%s),\r\nupdated on %s.\"
+url=https://auroraeditor.com" > config.ini
+
+    - name: Run & Send
+      run: |
+        php application.php
