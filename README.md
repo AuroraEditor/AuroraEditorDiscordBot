@@ -42,7 +42,7 @@ description="These are the statistics for [AuroraEditor/%s](https://github.com/A
 url=https://auroraeditor.com
 ```
 
-> Note:
+> **Note**\
 > Change `WEBHOOK_URL` to your own discord webhook url.
 
 Run it using:
