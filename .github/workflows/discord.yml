@@ -1,4 +1,4 @@
-name: Re-Deploy website
+name: Send stats to Discord.
 on:
   schedule:
     # Run every day of the week at 6am
@@ -7,12 +7,12 @@ jobs:
   build:
     runs-on: ubuntu-latest   
     steps:
-    - uses: actions/checkout@v2
-    - name: Create config.ini
-      env:
-        WEBHOOK: ${{ secrets.DISCORD_HOOK }}
-      run: |
-        echo "[settings]
+      - uses: actions/checkout@v3
+      - name: Create config.ini
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_HOOK }}
+        run: |
+          echo "[settings]
 stats=stars,forks,watchers,open_issues
 
 [github]
@@ -27,6 +27,5 @@ title=Aurora Editor Stats
 description=\"These are the statistics for [AuroraEditor/%s](https://github.com/AuroraEditor/%s),\r\nupdated on %s.\"
 url=https://auroraeditor.com" > config.ini
 
-    - name: Run & Send
-      run: |
-        php application.php
+      - name: Run & Send
+        run: php application.php
