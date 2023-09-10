@@ -79,18 +79,10 @@ function sendToDiscord($repo)
     $discordEmbedArray["thumbnail"]["url"] = $avatarURL;
 
     $discordEmbedArray["fields"] = array();
-    $discordEmbedArray["fields"][] = array(
-        "name" => "⭐️ Stars",
-        "value" => sprintf(
-            "[%s](%s)",
-            $repo['stargazers_count'] ?? 0,
-            ($repo['html_url'] ?? '') . '/stargazers',
-        ),
-        "inline" => true
-    );
 
+    // Add the forks.
     $discordEmbedArray["fields"][] = array(
-        "name" => "Forks",
+        "name" => "🪓 Forks",
         "value" => sprintf(
             "[%s](%s)",
             $repo['forks_count'] ?? 0,
@@ -99,6 +91,7 @@ function sendToDiscord($repo)
         "inline" => true
     );
 
+    // Add the watchers.
     $discordEmbedArray["fields"][] = array(
         "name" => "👁️ Watchers",
         "value" => sprintf(
@@ -109,9 +102,22 @@ function sendToDiscord($repo)
         "inline" => true
     );
 
+    // Add the stargazers.
+    $discordEmbedArray["fields"][] = array(
+        "name" => sprintf(
+            "[%s](%s)",
+            "⭐️ Stars",
+            ($repo['html_url'] ?? '') . '/stargazers',
+        ),
+        "value" => $repo['stargazers_count'] ?? 0,
+        "inline" => true
+    );
+
+    // Check if issues are enabled.
     if ($repo['has_issues'] ?? 0 == 1) {
+        // Add the issues.
         $discordEmbedArray["fields"][] = array(
-            "name" => "Issues",
+            "name" => "🎯 Issues",
             "value" => sprintf(
                 "[%s](%s)",
                 $repo['open_issues_count'] ?? 0,
@@ -129,7 +135,7 @@ function sendToDiscord($repo)
     }
 
     $discordEmbedArray["fields"][] = array(
-        "name" => "PRs",
+        "name" => "🔨 PRs",
         "value" => sprintf(
             "[%s](%s)",
             count($PRCount ?? 0),
