@@ -30,6 +30,9 @@ function sendToDiscord($repo)
     // Get the PR count.
     $PRCount = fetchData($repo['pulls_url']);
 
+    // Get the Watchers
+    $watchersCount = fetchData($repo['subscribers_url']);
+
     // Create a new array for the discord message.
     $discordArray = array();
 
@@ -96,7 +99,7 @@ function sendToDiscord($repo)
         "name" => "👁️ Watchers",
         "value" => sprintf(
             "[%s](%s)",
-            $repo['watchers_count'] ?? 0,
+            count($watchersCount ?? 0) ?? 0,
             ($repo['html_url'] ?? '') . '/watchers'
         ),
         "inline" => true
