@@ -153,6 +153,20 @@ function sendToDiscord($repo)
         "inline" => true
     );
 
+    // Tag the reviewers if there are open PR's.
+    if (isset($configuration['discord']['tag']) && count($PRCount ?? 0) > 0) {
+        $discordEmbedArray["description"] .= sprintf(
+            "\r\n\r\n<@&%s> Open PR's: %s.\r\n%s\r\n",
+            $configuration['discord']['tag'] ?? "reviewers",
+            sprintf(
+                "[%s](%s)",
+                count($PRCount ?? 0),
+                ($repo['html_url'] ?? '') . '/pulls'
+            ),
+            "‎ " // Left to right mark, to preserve space.
+        );
+    }
+
     // Add the embed array to the discord array.
     $discordArray["embeds"][] = $discordEmbedArray;
 
