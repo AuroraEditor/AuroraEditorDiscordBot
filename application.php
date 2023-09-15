@@ -1,4 +1,9 @@
 <?php
+// Fail if the config file doesn't exist.
+if (!file_exists("config.ini")) {
+    die("Config file not found.");
+}
+
 // Load the configuration.
 $configuration = parse_ini_file("config.ini", true);
 
@@ -155,14 +160,37 @@ function sendToDiscord($repo)
 
     // Tag the reviewers if there are open PR's.
     if (isset($configuration['discord']['tag']) && count($PRCount ?? 0) > 0) {
-        $discordEmbedArray["description"] .= sprintf(
-            "\r\n\r\n<@&%s> Open PR's: %s.\r\n%s\r\n",
-            $configuration['discord']['tag'] ?? "reviewers",
+        $commits = "";
+
+        foreach ($PRCount as $commit) {
+            $createdHoursAgo = round(
+                (strtotime("now") - strtotime($commit['created_at'])) / 3600
+            );
+
+            $commits .= sprintf(
+                "- [%s](%s) by [%s](%s), %s %s ago%s\r\n",
+                $commit['title'],
+                $commit['html_url'],
+                $commit['user']['login'],
+                $commit['user']['html_url'],
+                $createdHoursAgo > 24 ? round($createdHoursAgo / 24) : $createdHoursAgo,
+                $createdHoursAgo > 24 ? "days" : "hours",
+                $createdHoursAgo > ($configuration['discord']['tagtreshold'] ?? 24) ? sprintf(
+                    " ⚠️ <@&%s>",
+                    $configuration['discord']['tag'] ?? "reviewers"
+                ) : ""
+            );
+        }
+
+        // exit;
+        $discordArray["content"] = sprintf(
+            "The current amount of open PR's is %s, below a list with open PR's.\r\n%s%s",
             sprintf(
                 "[%s](%s)",
                 count($PRCount ?? 0),
                 ($repo['html_url'] ?? '') . '/pulls'
             ),
+            $commits,
             "‎ " // Left to right mark, to preserve space.
         );
     }
@@ -189,12 +217,18 @@ function sendToDiscord($repo)
 
 function fetchData($url)
 {
+    global $configuration;
+
     $url = str_replace('{/number}', '', $url);
 
     $options = array(
         'http' => array(
             'method' => "GET",
             'header' => "Accept-language: en\r\n" .
+                (isset($configuration['github']['token'])
+                    ? "Authorization: Bearer " . $configuration['github']['token'] . "\r\n"
+                    : ""
+                ) .
                 "User-Agent: Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.102011-10-16 20:23:10\r\n" // i.e. An iPad 
         )
     );

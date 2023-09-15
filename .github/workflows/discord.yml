@@ -14,19 +14,22 @@ jobs:
       - name: Create config.ini
         env:
           WEBHOOK: ${{ secrets.DISCORD_HOOK }}
-          ROLE : ${{ secrets.DISCORD_ROLE }}
+          ROLE: ${{ secrets.DISCORD_ROLE }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "[settings]
           stats=stars,forks,watchers,open_issues
           
           [github]
           url=https://api.github.com/users/AuroraEditor/repos
+          token=$TOKEN
           repos[]=AuroraEditor
           repos[]=auroraeditor.com
           
           [discord]
           webhook=$WEBHOOK
           tag=$ROLE
+          tagtreshold=24
           username=AuroraEditor
           title=Aurora Editor Stats
           description=\"These are the statistics for [%s](https://github.com/AuroraEditor/%s),\r\nupdated on %s.\"
