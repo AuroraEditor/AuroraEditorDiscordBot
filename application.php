@@ -168,17 +168,22 @@ function sendToDiscord($repo)
             );
 
             $commits .= sprintf(
-                "- [%s](%s) by [%s](%s), %s %s ago%s\r\n",
+                "- [%s](%s) by [%s](%s)%s, %s %s ago%s\r\n",
                 $commit['title'],
                 $commit['html_url'],
                 $commit['user']['login'],
                 $commit['user']['html_url'],
+                $commit['draft'] ?? false ? " _(Draft)_" : "",
                 $createdHoursAgo > 24 ? round($createdHoursAgo / 24) : $createdHoursAgo,
                 $createdHoursAgo > 24 ? "days" : "hours",
-                $createdHoursAgo > ($configuration['discord']['tagtreshold'] ?? 24) ? sprintf(
-                    " ⚠️ <@&%s>",
-                    $configuration['discord']['tag'] ?? "reviewers"
-                ) : ""
+                $createdHoursAgo > (
+                    ($configuration['discord']['tagtreshold'] ?? 24)
+                ) ? ($commit['draft'] ?? false) ?
+                    "" :
+                    sprintf(
+                        " ⚠️ <@&%s>",
+                        $configuration['discord']['tag'] ?? "reviewers"
+                    ) : ""
             );
         }
 
