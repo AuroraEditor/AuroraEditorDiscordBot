@@ -4,7 +4,9 @@ on:
     # Run every day of the week at 6am
     - cron:  '0 6 * * *'
   push:
-    branches: [ main ]
+    branches:
+        - main
+        - convert-to-swift
 
 jobs:
   build:
