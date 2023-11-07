@@ -133,10 +133,7 @@ func parseRepo(repo: GitHubRepo) {
         discordArray["content"] = configuration.discord.message
     }
     
-    if configuration.discord.username != "" {
-        discordArray["username"] = configuration.discord.username
-    }
-
+    discordArray["username"] = configuration.discord.username
     discordArray["avatar_url"] = repo.owner.avatar_url
     discordArray["tts"] = configuration.discord.tts ?? false
     discordArray["file"] = configuration.discord.file ?? ""
