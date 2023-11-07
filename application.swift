@@ -1,5 +1,10 @@
 import Foundation
 
+#if canImport(FoundationNetworking)
+// Support network calls in Linux.
+import FoundationNetworking
+#endif
+
 struct Configuration: Codable {
     let settings: Settings
     let github: GitHub
