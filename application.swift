@@ -331,3 +331,6 @@ func fetchData<T: Codable>(url fromURL: String) -> T? {
 
     return nil
 }
+
+// Tell the OS that the program exited successfully.
+exit(0)
