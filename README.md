@@ -57,6 +57,7 @@ create a config.json file in the root directory with the following contents:
 
 > **Note**\
 > Change `GITHUB_TOKEN`, `WEBHOOK_URL`, `ROLE_ID_NUMERIC` to your own values.
+> 
 > Please note `GITHUB_TOKEN` is optional.
 
 Run it using:
