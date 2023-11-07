@@ -295,12 +295,12 @@ func parseRepo(repo: GitHubRepo) {
         options: []
     )
 
-    let url = URL(string: configuration.discord.webhook)!
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    request.httpBody = json_data
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.setValue("application/json", forHTTPHeaderField: "Accept")
+    // let url = URL(string: configuration.discord.webhook)!
+    // var request = URLRequest(url: url)
+    // request.httpMethod = "POST"
+    // request.httpBody = json_data
+    // request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    // request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     // TODO: execute the request
 
