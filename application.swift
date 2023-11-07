@@ -250,7 +250,7 @@ func parseRepo(repo: GitHubRepo) {
         var commits = ""
 
         for commit in PRCount ?? [] {
-            let createdHoursAgo = 0
+            let createdHoursAgo = 0.0
             // This has a segfault?, so disabled for now.
             // round(
             //     (timestamp.timeIntervalSince1970 - commit.createdAt.timeIntervalSince1970) / 3600
@@ -304,39 +304,25 @@ func parseRepo(repo: GitHubRepo) {
 
     // TODO: execute the request
 
+    dump(discordArray)
 }
 
 func fetchData<T: Codable>(url fromURL: String) -> T? {
     guard let url = URL(string: fromURL) else {
+        print("Invalid URL")
         return nil
     }
-
-    // make http request with authorization header
-    var request = URLRequest(url: url)
-    request.httpMethod = "GET"
-    request.setValue(
-        "application/json",
-        forHTTPHeaderField: "Content-Type"
-    )
-    // request.setValue(
-    //     "Bearer TOKEN",
-    //     forHTTPHeaderField: "Authorization"
-    // )
-    request.setValue(
-        "Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10",
-        forHTTPHeaderField: "User-Agent"
-    )
 
     do {
         let json = try JSONDecoder().decode(
             T.self,
-            from: Data(contentsOf: URL(string: fromURL)!)
+            from: Data(contentsOf: url)
         )
 
         return json
     } catch {
         print(error)
     }
-    // TODO: execute the request
+
     return nil
 }
