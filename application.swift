@@ -73,7 +73,7 @@ struct GitHubPullRequests: Codable {
     var html_url: String
     var user: User
     var draft: Bool? = false
-    var createdAt: Date
+    // var createdAt: Date
 
     struct User: Codable {
         var login: String
@@ -104,8 +104,8 @@ let configuration = try JSONDecoder().decode(
 )
 
 // Load the data from GitHub.
-// let githubData:  =
 if let githubData: [GitHubRepo] = fetchData(url: configuration.github.url) {
+
     // Walk through the repos.
     for repo in githubData {
         // Check if the repo is in the list of repos to check.
@@ -118,7 +118,7 @@ if let githubData: [GitHubRepo] = fetchData(url: configuration.github.url) {
         parseRepo(repo: repo)
     }
 } else {
-    fatalError("Unable to parse the data from \(configuration.github.url)")
+    print("Unable to parse the data from \(configuration.github.url)")
 }
 
 func parseRepo(repo: GitHubRepo) {
@@ -137,7 +137,7 @@ func parseRepo(repo: GitHubRepo) {
     if configuration.discord.message != "" {
         discordArray["content"] = configuration.discord.message
     }
-    
+
     discordArray["username"] = configuration.discord.username
     discordArray["avatar_url"] = repo.owner.avatar_url
     discordArray["tts"] = configuration.discord.tts ?? false
@@ -300,28 +300,71 @@ func parseRepo(repo: GitHubRepo) {
         options: []
     )
 
-    // let url = URL(string: configuration.discord.webhook)!
-    // var request = URLRequest(url: url)
-    // request.httpMethod = "POST"
-    // request.httpBody = json_data
-    // request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    // request.setValue("application/json", forHTTPHeaderField: "Accept")
+    let url = URL(string: configuration.discord.webhook)!
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.httpBody = json_data
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
 
-    // TODO: execute the request
+    URLSession.shared.dataTask(with: request) { _, _, _ in
+        // If it fails, it fails.
+    }.resume()
 
     dump(discordArray)
 }
 
+// WARNING: BAD PRACTICE, I'M FORCING THE PROGRAM TO WAIT FOR THE DATA.
 func fetchData<T: Codable>(url fromURL: String) -> T? {
     guard let url = URL(string: fromURL) else {
         print("Invalid URL")
         return nil
     }
 
+    var wait = true
+    var data: Data?
+
+    var request = URLRequest(url: url)
+    request.setValue("en", forHTTPHeaderField: "Accept-language")
+    request.setValue("Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us)", forHTTPHeaderField: "User-Agent")
+
+    if configuration.github.token != "" {
+        request.setValue("Bearer \(configuration.github.token)", forHTTPHeaderField: "Authorization")
+    }
+
+    request.httpMethod = "GET"
+
+    let task = URLSession.shared.dataTask(with: request) { ddata, response, error in
+        guard
+            let ddata = ddata,
+                let response = response as? HTTPURLResponse,
+                error == nil
+        else {
+            print("HTTP ERROR")
+            print(error!.localizedDescription)
+            wait = false
+            return
+        }
+
+        guard (200 ... 299) ~= response.statusCode else {
+            print("statusCode should be 2xx, but is \(response.statusCode)")
+            print("response = \(response)")
+            wait = false
+            return
+        }
+
+        data = ddata
+        wait = false
+    }
+
+    task.resume()
+
+    while (wait) { }
+
     do {
         let json = try JSONDecoder().decode(
             T.self,
-            from: Data(contentsOf: url)
+            from: data!
         )
 
         return json
