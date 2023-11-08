@@ -45,7 +45,7 @@ jobs:
                   \"description\": \"These are the statistics for [AuroraEditor/%@](https://github.com/AuroraEditor/%@),\r\nupdated on %@.\",
                   \"url\": \"https://auroraeditor.com\",
                   \"footer\": {
-                      \"text\": \"I am {open source](https://github.com/AuroraEditor/AuroraEditorDiscordBot).\",
+                      \"text\": \"I am [open source](https://github.com/AuroraEditor/AuroraEditorDiscordBot).\",
                       \"icon_url\": \"https://avatars.githubusercontent.com/u/123369531?v=4\"
                   }
               }
