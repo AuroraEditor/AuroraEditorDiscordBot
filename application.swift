@@ -261,39 +261,36 @@ func parseRepo(repo: GitHubRepo) {
            options: []
         )
 
-        print("json_data:")
-        print(json_data)
+         let url = URL(string: configuration.discord.webhook)!
+         var request = URLRequest(url: url)
+         request.httpMethod = "POST"
+         request.httpBody = json_data
+         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+         request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+         var keeprunning = true
+         URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data,
+                  let response = response as? HTTPURLResponse,
+                  error == nil
+             else {
+                 print("HTTP ERROR")
+                 print(error!.localizedDescription)
+                 keeprunning = false
+                 return
+             }
+                                               
+             dump([String(decoding: data, as: UTF8.self), response.statusCode, json_data])
+             keeprunning = false
+         }.resume()
+
+         while (keeprunning) {
+             // We can not yet exit.
+         }
     } catch {
         print("FAILED TO CREATE JSON")
         print(error)
         return
-    }
-
-    let url = URL(string: configuration.discord.webhook)!
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    request.httpBody = json_data
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.setValue("application/json", forHTTPHeaderField: "Accept")
-
-    var keeprunning = true
-    URLSession.shared.dataTask(with: request) { data, response, error in
-       guard let data = data,
-             let response = response as? HTTPURLResponse,
-             error == nil
-        else {
-            print("HTTP ERROR")
-            print(error!.localizedDescription)
-            keeprunning = false
-            return
-        }
-                                               
-        dump([String(decoding: data, as: UTF8.self), response.statusCode])
-        keeprunning = false
-    }.resume()
-
-    while (keeprunning) {
-        // We can not yet exit.
     }
 }
 
