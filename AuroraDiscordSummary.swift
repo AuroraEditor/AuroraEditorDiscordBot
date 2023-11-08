@@ -246,16 +246,10 @@ func parseRepo(repo: GitHubRepo) {
     // Tag the reviewers if there are open PR's.
     var commits = ""
         for commit in PRCount ?? [] {
-            let createdHoursAgo = 0.0 // TODO: make this work commit.createdAt = "2023-11-07T19:51:29Z" 
-           
-            // round(
-            //     (timestamp.timeIntervalSince1970 - commit.createdAt.timeIntervalSince1970) / 3600
-            // )
+            let createdHoursAgo = calculateHours(inputDate: commit.created_at)
             let isDraft = commit.draft ? " _(Draft)_" : ""
-            let createdAgo = (createdHoursAgo > 24.0 ? "\(createdHoursAgo / 24.0)" : "\(createdHoursAgo)") + (createdHoursAgo > 24.0 ? "days" : "hours")
-            let notify = !commit.draft && createdHoursAgo > (
-                    Double(configuration.discord.tagtreshold)
-                ) ? " ⚠️ <@&\(configuration.discord.tag)>" : ""
+            let createdAgo = (createdHoursAgo > 24 ? "\(createdHoursAgo / 24)" : "\(createdHoursAgo)") + (createdHoursAgo > 24 ? "days" : "hours")
+            let notify = !commit.draft && createdHoursAgo > configuration.discord.tagtreshold ? " ⚠️ <@&\(configuration.discord.tag)>" : ""
         
             commits += "- [\(commit.title)](\(commit.html_url)) by [\(commit.user.login)](\(commit.user.html_url))\(isDraft), \(createdAgo) ago\(notify)\r\n"
         }
@@ -374,6 +368,19 @@ func fetchData<T: Codable>(url fromURL: String) -> T? {
     }
 
     return nil
+}
+
+func calculateHours(inputDate: String) -> Int {
+    let repoFormatter = DateFormatter()
+    repoFormatter.locale = Locale(identifier: "en_US_POSIX")
+    repoFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+            
+    if let repoDate = repoFormatter.date(from: inputDate),
+       let hours = Calendar.current.dateComponents([.hour], from: repoDate, to: Date()).hour {
+        return hours
+    }
+
+    return 0
 }
 
 // Tell the OS that the program exited successfully.
