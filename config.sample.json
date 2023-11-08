@@ -21,7 +21,7 @@
         "tagtreshold": 24,
         "username": "AuroraEditor",
         "title": "Aurora Editor Stats",
-        "description": "These are the statistics for [AuroraEditor/%s](https://github.com/AuroraEditor/%s),\r\nupdated on %s.",
+        "description": "These are the statistics for [AuroraEditor/%@](https://github.com/AuroraEditor/%@),\r\nupdated on %@.",
         "url": "https://auroraeditor.com"
     }
 }
