@@ -260,6 +260,9 @@ func parseRepo(repo: GitHubRepo) {
            withJSONObject: discordArray,
            options: []
         )
+
+        print("json_data:")
+        print(json_data)
     } catch {
         print("FAILED TO CREATE JSON")
         print(error)
@@ -285,7 +288,7 @@ func parseRepo(repo: GitHubRepo) {
             return
         }
                                                
-        dump([String(decoding: data, as: UTF8.self), response.statusCode, json_data])
+        dump([String(decoding: data, as: UTF8.self), response.statusCode])
         keeprunning = false
     }.resume()
 
