@@ -50,7 +50,7 @@ create a config.json file in the root directory with the following contents:
         "username": "AuroraEditor",
         "avatar": "https://avatars.githubusercontent.com/u/123369531?v=4",
         "title": "Aurora Editor Stats",
-        "description": "These are the statistics for [AuroraEditor/%s](https://github.com/AuroraEditor/%s),\r\nupdated on %s.",
+        "description": "These are the statistics for [%s](https://github.com/%s),\r\nupdated on %s.",
         "url": "https://auroraeditor.com"
     }
 }
