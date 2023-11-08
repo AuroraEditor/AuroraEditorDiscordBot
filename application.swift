@@ -267,11 +267,17 @@ func parseRepo(repo: GitHubRepo) {
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
+    var keeprunning = true
     URLSession.shared.dataTask(with: request) { ddata, response, error in
         // If it fails, it fails.
         dump([ddata,response,error])
+        keeprunning = false
     }.resume()
 
+    while (keeprunning) {
+        // We can not yet exit.
+    }
+    
     dump(discordArray)
 }
 
