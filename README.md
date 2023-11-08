@@ -64,5 +64,5 @@ create a config.json file in the root directory with the following contents:
 Run it using:
     
 ```bash
-swift application.swift
+swift AuroraDiscordSummary.swift
 ```
