@@ -1,4 +1,4 @@
-name: Send stats to Discord.
+name: Send summary to Discord.
 on:
   schedule:
     # Run every day of the week at 6am
@@ -8,7 +8,7 @@ on:
         - main
 
 jobs:
-  build:
+  aurora_discord_summary:
     if: github.repository_owner == 'AuroraEditor'
     runs-on: ubuntu-latest   
     steps:
@@ -47,5 +47,5 @@ jobs:
               }
           }" > config.json
 
-      - name: Run & Send
-        run: swift application.swift
+      - name: Run Aurora Discord Summary
+        run: swift AuroraDiscordSummary.swift
