@@ -150,7 +150,7 @@ func parseRepo(repo: GitHubRepo) {
     }
 
     discordArray["username"] = configuration.discord.username
-    discordArray["avatar_url"] = repo.owner.avatar_url
+    discordArray["avatar_url"] = configuration.discord.avatar ?? repo.owner.avatar_url
     discordArray["tts"] = configuration.discord.tts ?? false
     
     if let file = configuration.discord.file {
@@ -187,7 +187,7 @@ func parseRepo(repo: GitHubRepo) {
     }
 
     discordEmbedArray["thumbnail"] = [
-        "url": configuration.discord.avatar ?? repo.owner.avatar_url
+        "url": repo.owner.avatar_url
     ]
 
     var discordEmbedFieldsArray = [[String: Any]]()
