@@ -257,7 +257,7 @@ func parseRepo(repo: GitHubRepo) {
 
     do {
         let json_data = try JSONSerialization.data(
-           withJSONObject: discordArray,
+           withJSONObject: discordArray as [String: Any],
            options: []
         )
 
