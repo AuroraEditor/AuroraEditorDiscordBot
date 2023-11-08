@@ -22,7 +22,7 @@ struct Configuration: Codable {
 
     struct Discord: Codable {
         let webhook: String
-        let tag: Int?
+        let tag: Int
         let tagtreshold: Int
         let username: String
         let title: String
@@ -241,10 +241,10 @@ func parseRepo(repo: GitHubRepo) {
             //     (timestamp.timeIntervalSince1970 - commit.createdAt.timeIntervalSince1970) / 3600
             // )
             var isDraft = commit.draft ? " _(Draft)_" : ""
-            var createdAgo = (createdHoursAgo > 24.0 ? "\(round(createdHoursAgo / 24.0))" : "\(createdHoursAgo)") + createdHoursAgo > 24.0 ? "days" : "hours"
+            var createdAgo = (createdHoursAgo > 24.0 ? "\(createdHoursAgo / 24.0)" : "\(createdHoursAgo)") + (createdHoursAgo > 24.0 ? "days" : "hours")
             var notify = !commit.draft && createdHoursAgo > (
                     Double(configuration.discord.tagtreshold)
-                ) ? " ⚠️ <@&\(configuration.discord.tag ?? "reviewers")>" : ""
+                ) ? " ⚠️ <@&\(configuration.discord.tag)>" : ""
         
             commits += "- [\(commit.title)](\(commit.html_url)) by [\(commit.user.login)](\(commit.user.html_url))\(isDraft), \(createdAgo) ago\(notify)\r\n"
         }
