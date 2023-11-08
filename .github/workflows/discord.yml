@@ -1,40 +1,51 @@
-name: Send stats to Discord.
+name: Send summary to Discord.
 on:
   schedule:
     # Run every day of the week at 6am
     - cron:  '0 6 * * *'
   push:
-    branches: [ main ]
+    branches:
+        - main
 
 jobs:
-  build:
+  aurora_discord_summary:
     if: github.repository_owner == 'AuroraEditor'
     runs-on: ubuntu-latest   
     steps:
       - uses: actions/checkout@v3
-      - name: Create config.ini
+      - name: Create config.json
         env:
           WEBHOOK: ${{ secrets.DISCORD_HOOK }}
           ROLE: ${{ secrets.DISCORD_ROLE }}
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "[settings]
-          stats=stars,forks,watchers,open_issues
-          
-          [github]
-          url=https://api.github.com/users/AuroraEditor/repos
-          token=$TOKEN
-          repos[]=AuroraEditor
-          repos[]=auroraeditor.com
-          
-          [discord]
-          webhook=$WEBHOOK
-          tag=$ROLE
-          tagtreshold=24
-          username=AuroraEditor
-          title=Aurora Editor Stats
-          description=\"These are the statistics for [%s](https://github.com/AuroraEditor/%s),\r\nupdated on %s.\"
-          url=https://auroraeditor.com" > config.ini
+          echo "{
+            \"settings\": {
+                \"stats\": [
+                      \"stars\",
+                      \"forks\",
+                      \"watchers\",
+                      \"open_issues\"
+                  ]
+              },
+              \"github\": {
+                  \"url\": \"https://api.github.com/users/AuroraEditor/repos\",
+                  \"token\": \"$TOKEN\",
+                  \"repos\": [
+                      \"AuroraEditor\",
+                      \"auroraeditor.com\"
+                  ]
+              },
+              \"discord\": {
+                  \"webhook\": \"$WEBHOOK\",
+                  \"tag\": $ROLE,
+                  \"tagtreshold\": 24,
+                  \"username\": \"AuroraEditor\",
+                  \"title\": \"Aurora Editor Stats\",
+                  \"description\": \"These are the statistics for [AuroraEditor/%@](https://github.com/AuroraEditor/%@),\r\nupdated on %@.\",
+                  \"url\": \"https://auroraeditor.com\"
+              }
+          }" > config.json
 
-      - name: Run & Send
-        run: php application.php
+      - name: Run Aurora Discord Summary
+        run: swift AuroraDiscordSummary.swift

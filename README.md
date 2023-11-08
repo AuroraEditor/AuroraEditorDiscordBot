@@ -23,30 +23,45 @@
 
 ## Run 
 
-create a config.ini file in the root directory with the following contents:
+create a config.json file in the root directory with the following contents:
 
-```ini
-[settings]
-stats=stars,forks,watchers,open_issues
-
-[github]
-url=https://api.github.com/users/AuroraEditor/repos
-repos[]=AuroraEditor
-repos[]=auroraeditor.com
-
-[discord]
-webhook=WEBHOOK_URL
-username=AuroraEditor
-title=Aurora Editor Stats
-description="These are the statistics for [AuroraEditor/%s](https://github.com/AuroraEditor/%s),\r\nupdated on %s."
-url=https://auroraeditor.com
+```json
+{
+    "settings": {
+        "stats": [
+            "stars",
+            "forks",
+            "watchers",
+            "open_issues"
+        ]
+    },
+    "github": {
+        "url": "https://api.github.com/users/AuroraEditor/repos",
+        "token": "GITHUB_TOKEN",
+        "repos": [
+            "AuroraEditor",
+            "auroraeditor.com"
+        ]
+    },
+    "discord": {
+        "webhook": "WEBHOOK_URL",
+        "tag": ROLE_ID_NUMERIC,
+        "tagtreshold": 24,
+        "username": "AuroraEditor",
+        "title": "Aurora Editor Stats",
+        "description": "These are the statistics for [AuroraEditor/%s](https://github.com/AuroraEditor/%s),\r\nupdated on %s.",
+        "url": "https://auroraeditor.com"
+    }
+}
 ```
 
 > **Note**\
-> Change `WEBHOOK_URL` to your own discord webhook url.
+> Change `GITHUB_TOKEN`, `WEBHOOK_URL`, `ROLE_ID_NUMERIC` to your own values.
+> 
+> Please note `GITHUB_TOKEN` is optional.
 
 Run it using:
     
 ```bash
-php application.php
+swift application.swift
 ```

@@ -1,0 +1,27 @@
+{
+    "settings": {
+        "stats": [
+            "stars",
+            "forks",
+            "watchers",
+            "open_issues"
+        ]
+    },
+    "github": {
+        "url": "https://api.github.com/users/AuroraEditor/repos",
+        "token": "GITHUB_TOKEN",
+        "repos": [
+            "AuroraEditor",
+            "auroraeditor.com"
+        ]
+    },
+    "discord": {
+        "webhook": "WEBHOOK_URL",
+        "tag": ROLE_ID_NUMERIC,
+        "tagtreshold": 24,
+        "username": "AuroraEditor",
+        "title": "Aurora Editor Stats",
+        "description": "These are the statistics for [AuroraEditor/%@](https://github.com/AuroraEditor/%@),\r\nupdated on %@.",
+        "url": "https://auroraeditor.com"
+    }
+}
