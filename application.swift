@@ -231,8 +231,7 @@ func parseRepo(repo: GitHubRepo) {
     discordArray["fields"] = discordEmbedFieldsArray
 
     // Tag the reviewers if there are open PR's.
-    if configuration.discord.tag != nil {
-        var commits = ""
+    var commits = ""
 
         for commit in PRCount ?? [] {
             let createdHoursAgo = 0.0
@@ -250,14 +249,13 @@ func parseRepo(repo: GitHubRepo) {
         }
 
         discordArray["content"] = "The current amount of open PR's is [\(PRCount?.count ?? 0)](\(repo.html_url + "/pulls")), below a list with open PR's.\r\n\(commits) "
-    }
 
     // Add the embed array to the discord array.
     discordArray["embeds"] = [discordEmbedArray]
 
     do {
         let json_data = try JSONSerialization.data(
-           withJSONObject: discordArray as [String: Any],
+           withJSONObject: discordArray,
            options: []
         )
 
@@ -290,6 +288,8 @@ func parseRepo(repo: GitHubRepo) {
     } catch {
         print("FAILED TO CREATE JSON")
         print(error)
+        print("Dict \(discordArray.self)")
+        print(discordArray)
         return
     }
 }
