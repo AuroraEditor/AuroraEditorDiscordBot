@@ -277,10 +277,17 @@ func parseRepo(repo: GitHubRepo) {
              else {
                  print("HTTP ERROR")
                  print(error!.localizedDescription)
+                 exit(1)
                  keeprunning = false
                  return
              }
-                                               
+
+             if response.statusCode == 400 {
+                 print("JSON is unparsable by discord.")
+                 print(String(decoding: json_data, as: UTF8.self))
+                 exit(2)
+             }
+
              dump([String(decoding: data, as: UTF8.self), response.statusCode, json_data])
              keeprunning = false
          }.resume()
