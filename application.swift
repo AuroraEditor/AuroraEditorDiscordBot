@@ -124,6 +124,8 @@ if let githubData: [GitHubRepo] = fetchData(url: configuration.github.url) {
 func parseRepo(repo: GitHubRepo) {
     // Get the current timestamp.
     let timestamp = Date()
+    let formatter = ISO8601DateFormatter()
+    formatter.formatOptions.insert(.withFractionalSeconds)  
 
     // Get the PR count.
     let PRCount: [GitHubPullRequests]? = fetchData(url: repo.pulls_url.replacingOccurrences(of: "{/number}", with: ""))
@@ -159,7 +161,7 @@ func parseRepo(repo: GitHubRepo) {
     )
 
     discordEmbedArray["url"] = configuration.discord.url ?? "https://auroraeditor.com"
-    discordEmbedArray["timestamp"] = timestamp.timeIntervalSince1970
+    discordEmbedArray["timestamp"] = formatter.string(from: date)
     discordEmbedArray["color"] = Int(configuration.discord.color ?? "3366ff", radix: 16)
 
     if let footerText = configuration.discord.footer?.text {
