@@ -244,7 +244,7 @@ func parseRepo(repo: GitHubRepo) {
             var createdAgo = (createdHoursAgo > 24.0 ? "\(round(createdHoursAgo / 24.0))" : "\(createdHoursAgo)") + createdHoursAgo > 24.0 ? "days" : "hours"
             var notify = !commit.draft && createdHoursAgo > (
                     Double(configuration.discord.tagtreshold)
-                ) ? " ⚠️ <@&\(configuration.discord.tag ?? "reviewers")>") : ""
+                ) ? " ⚠️ <@&\(configuration.discord.tag ?? "reviewers")>" : ""
         
             commits += "- [\(commit.title)](\(commit.html_url)) by [\(commit.user.login)](\(commit.user.html_url))\(isDraft), \(createdAgo) ago\(notify)\r\n"
         }
