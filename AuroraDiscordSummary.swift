@@ -33,6 +33,7 @@ struct Configuration: Codable {
         let tag: Int
         let tagtreshold: Int
         let username: String
+        let avatar: String?
         let title: String
         let description: String?
         let url: String?
@@ -186,7 +187,7 @@ func parseRepo(repo: GitHubRepo) {
     }
 
     discordEmbedArray["thumbnail"] = [
-        "url": repo.owner.avatar_url
+        "url": configuration.discord.avatar ?? repo.owner.avatar_url
     ]
 
     var discordEmbedFieldsArray = [[String: Any]]()
