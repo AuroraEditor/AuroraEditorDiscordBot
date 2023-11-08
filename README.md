@@ -48,6 +48,7 @@ create a config.json file in the root directory with the following contents:
         "tag": ROLE_ID_NUMERIC,
         "tagtreshold": 24,
         "username": "AuroraEditor",
+        "avatar": "https://avatars.githubusercontent.com/u/123369531?v=4",
         "title": "Aurora Editor Stats",
         "description": "These are the statistics for [AuroraEditor/%s](https://github.com/AuroraEditor/%s),\r\nupdated on %s.",
         "url": "https://auroraeditor.com"
@@ -58,7 +59,7 @@ create a config.json file in the root directory with the following contents:
 > **Note**\
 > Change `GITHUB_TOKEN`, `WEBHOOK_URL`, `ROLE_ID_NUMERIC` to your own values.
 > 
-> Please note `GITHUB_TOKEN` is optional.
+> Please note `GITHUB_TOKEN` is optional but adviced.
 
 Run it using:
     
