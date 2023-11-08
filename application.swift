@@ -161,7 +161,7 @@ func parseRepo(repo: GitHubRepo) {
     )
 
     discordEmbedArray["url"] = configuration.discord.url ?? "https://auroraeditor.com"
-    discordEmbedArray["timestamp"] = formatter.string(from: date)
+    discordEmbedArray["timestamp"] = formatter.string(from: timestamp)
     discordEmbedArray["color"] = Int(configuration.discord.color ?? "3366ff", radix: 16)
 
     if let footerText = configuration.discord.footer?.text {
