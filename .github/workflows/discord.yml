@@ -43,7 +43,7 @@ jobs:
                   \"username\": \"Aurora Care Bear\",
                   \"avatar\": \"https://avatars.githubusercontent.com/u/123369531?v=4\",
                   \"title\": \"Aurora Editor Stats\",
-                  \"description\": \"These are the statistics for [AuroraEditor/%@](https://github.com/AuroraEditor/%@),\r\nupdated on %@.\",
+                  \"description\": \"These are the statistics for [%@](https://github.com/%@),\r\nupdated on %@.\",
                   \"url\": \"https://auroraeditor.com\"
               }
           }" > config.json
