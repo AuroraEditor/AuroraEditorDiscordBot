@@ -231,7 +231,7 @@ func parseRepo(repo: GitHubRepo) {
         "inline": true
     ])
 
-    discordArray["embeds"]["fields"] = discordEmbedFieldsArray
+    discordEmbedArray["fields"] = discordEmbedFieldsArray
 
     // Tag the reviewers if there are open PR's.
     var commits = ""
