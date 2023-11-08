@@ -186,7 +186,7 @@ func parseRepo(repo: GitHubRepo) {
     // Add the forks.
     discordEmbedFieldsArray.append([
         "name": "🪓 Forks",
-        "value": "[\(repo.forks_count)](\(repo.html_url + "/forks")",
+        "value": "[\(repo.forks_count)](\(repo.html_url + "/forks"))",
         "inline": true
     ])
 
