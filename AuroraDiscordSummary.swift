@@ -1,5 +1,5 @@
 //
-//  AuroraDiscordBot.swift
+//  AuroraDiscordSummary.swift
 //  Aurora Editor Discord Bot
 //
 //  Created by Wesley de Groot on 08/11/2023.
