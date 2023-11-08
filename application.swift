@@ -255,10 +255,16 @@ func parseRepo(repo: GitHubRepo) {
     // Add the embed array to the discord array.
     discordArray["embeds"] = [discordEmbedArray]
 
-    let json_data = try? JSONSerialization.data(
-        withJSONObject: discordArray,
-        options: []
-    )
+    do {
+        let json_data = try JSONSerialization.data(
+           withJSONObject: discordArray,
+           options: []
+        )
+    } catch {
+        print("FAILED TO CREATE JSON")
+        print(error)
+        return
+    }
 
     let url = URL(string: configuration.discord.webhook)!
     var request = URLRequest(url: url)
@@ -286,8 +292,6 @@ func parseRepo(repo: GitHubRepo) {
     while (keeprunning) {
         // We can not yet exit.
     }
-    
-    dump(discordArray)
 }
 
 // WARNING: BAD PRACTICE, I'M FORCING THE PROGRAM TO WAIT FOR THE DATA.
