@@ -240,9 +240,9 @@ func parseRepo(repo: GitHubRepo) {
             // round(
             //     (timestamp.timeIntervalSince1970 - commit.createdAt.timeIntervalSince1970) / 3600
             // )
-            var isDraft = commit.draft ? " _(Draft)_" : ""
-            var createdAgo = (createdHoursAgo > 24.0 ? "\(createdHoursAgo / 24.0)" : "\(createdHoursAgo)") + (createdHoursAgo > 24.0 ? "days" : "hours")
-            var notify = !commit.draft && createdHoursAgo > (
+            let isDraft = commit.draft ? " _(Draft)_" : ""
+            let createdAgo = (createdHoursAgo > 24.0 ? "\(createdHoursAgo / 24.0)" : "\(createdHoursAgo)") + (createdHoursAgo > 24.0 ? "days" : "hours")
+            let notify = !commit.draft && createdHoursAgo > (
                     Double(configuration.discord.tagtreshold)
                 ) ? " ⚠️ <@&\(configuration.discord.tag)>" : ""
         
@@ -267,8 +267,9 @@ func parseRepo(repo: GitHubRepo) {
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
-    URLSession.shared.dataTask(with: request) { _, _, _ in
+    URLSession.shared.dataTask(with: request) { ddata, response, error in
         // If it fails, it fails.
+        dump([ddata,response,error])
     }.resume()
 
     dump(discordArray)
