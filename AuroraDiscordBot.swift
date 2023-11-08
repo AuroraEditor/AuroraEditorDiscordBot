@@ -1,3 +1,11 @@
+//
+//  AuroraDiscordBot.swift
+//  Aurora Editor Discord Bot
+//
+//  Created by Wesley de Groot on 08/11/2023.
+//  Copyright © 2023 Aurora Company. All rights reserved.
+//
+
 import Foundation
 
 #if canImport(FoundationNetworking)
@@ -290,12 +298,11 @@ func parseRepo(repo: GitHubRepo) {
                  exit(2)
              }
 
-             dump([String(decoding: data, as: UTF8.self), response.statusCode, json_data])
              keeprunning = false
          }.resume()
 
          while (keeprunning) {
-             // We can not yet exit.
+             // We need this because otherwise the application will end before doing the call
          }
     } catch {
         print("FAILED TO CREATE JSON")
@@ -306,7 +313,6 @@ func parseRepo(repo: GitHubRepo) {
     }
 }
 
-// WARNING: BAD PRACTICE, I'M FORCING THE PROGRAM TO WAIT FOR THE DATA.
 func fetchData<T: Codable>(url fromURL: String) -> T? {
     guard let url = URL(string: fromURL) else {
         print("Invalid URL")
@@ -351,7 +357,9 @@ func fetchData<T: Codable>(url fromURL: String) -> T? {
 
     task.resume()
 
-    while (wait) { }
+    while (wait) {
+        // We need this because otherwise the application will end before doing the call
+    }
 
     do {
         let json = try JSONDecoder().decode(
