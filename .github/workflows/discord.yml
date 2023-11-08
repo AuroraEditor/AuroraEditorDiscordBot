@@ -43,7 +43,11 @@ jobs:
                   \"username\": \"AuroraEditor\",
                   \"title\": \"Aurora Editor Stats\",
                   \"description\": \"These are the statistics for [AuroraEditor/%@](https://github.com/AuroraEditor/%@),\r\nupdated on %@.\",
-                  \"url\": \"https://auroraeditor.com\"
+                  \"url\": \"https://auroraeditor.com\",
+                  \"footer\": {
+                      \"text\": \"I am {open source](https://github.com/AuroraEditor/AuroraEditorDiscordBot).\",
+                      \"icon_url\": \"https://avatars.githubusercontent.com/u/123369531?v=4\"
+                  }
               }
           }" > config.json
 
