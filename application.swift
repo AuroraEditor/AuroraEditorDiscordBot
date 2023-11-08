@@ -269,7 +269,17 @@ func parseRepo(repo: GitHubRepo) {
 
     var keeprunning = true
     URLSession.shared.dataTask(with: request) { data, response, error in
-        dump([String(decoding: data, as: UTF8.self), json_data])
+       guard let data = data,
+             let response = response as? HTTPURLResponse,
+             error == nil
+        else {
+            print("HTTP ERROR")
+            print(error!.localizedDescription)
+            keeprunning = false
+            return
+        }
+                                               
+        dump([String(decoding: data, as: UTF8.self), response.statusCode, json_data])
         keeprunning = false
     }.resume()
 
