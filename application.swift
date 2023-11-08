@@ -72,7 +72,7 @@ struct GitHubPullRequests: Codable {
     var title: String
     var html_url: String
     var user: User
-    var draft: Bool? = false
+    var draft: Bool
     // var createdAt: Date
 
     struct User: Codable {
@@ -181,33 +181,21 @@ func parseRepo(repo: GitHubRepo) {
     // Add the forks.
     discordEmbedFieldsArray.append([
         "name": "🪓 Forks",
-        "value": String(
-            format: "[%s](%s)",
-            repo.forks_count,
-            repo.html_url + "/forks"
-        ),
+        "value": "[\(repo.forks_count)](\(repo.html_url + "/forks")",
         "inline": true
     ])
 
     // Add the watchers.
     discordEmbedFieldsArray.append([
         "name": "👁️ Watchers",
-        "value": String(
-            format: "[%s](%s)",
-            watchersCount?.count ?? 0,
-            repo.html_url + "/watchers"
-        ),
+        "value": "[\(watchersCount?.count ?? 0)](\(repo.html_url + "/watchers"))",
         "inline": true
     ])
 
     // Add the stargazers.
     discordEmbedFieldsArray.append([
         "name": "⭐️ Stars",
-        "value": String(
-            format: "[%s](%s)",
-            repo.stargazers_count,
-            repo.html_url + "/stargazers"
-        ),
+        "value": "[\(repo.stargazers_count)](\(repo.html_url + "/stargazers"))",
         "inline": true
     ])
 
@@ -216,11 +204,7 @@ func parseRepo(repo: GitHubRepo) {
         // Add the issues.
         discordEmbedFieldsArray.append([
             "name": "🎯 Issues",
-            "value": String(
-                format: "[%s](%s)",
-                repo.open_issues_count,
-                repo.html_url + "/issues"
-            ),
+            "value": "[\(repo.open_issues_count)](\(repo.html_url + "/issues"))",
             "inline": true
         ])
     } else {
@@ -234,11 +218,7 @@ func parseRepo(repo: GitHubRepo) {
 
     discordEmbedFieldsArray.append([
         "name": "🔨 PRs",
-        "value": String(
-            format: "[%s](%s)",
-            PRCount?.count ?? 0,
-            repo.html_url + "/pulls"
-        ),
+        "value": "[\(PRCount?.count ?? 0)](\(repo.html_url + "/pulls"))",
         "inline": true
     ])
 
@@ -260,36 +240,16 @@ func parseRepo(repo: GitHubRepo) {
             // round(
             //     (timestamp.timeIntervalSince1970 - commit.createdAt.timeIntervalSince1970) / 3600
             // )
-            commits += String(
-                format: "- [%s](%s) by [%s](%s)%s, %s %s ago%s\r\n",
-                commit.title,
-                commit.html_url,
-                commit.user.login,
-                commit.user.html_url,
-                commit.draft ?? false ? " _(Draft)_" : "",
-                createdHoursAgo > 24.0 ? round(createdHoursAgo / 24.0) : createdHoursAgo,
-                createdHoursAgo > 24.0 ? "days" : "hours",
-                createdHoursAgo > (
+            var isDraft = commit.draft ? " _(Draft)_" : ""
+            var createdAgo = (createdHoursAgo > 24.0 ? "\(round(createdHoursAgo / 24.0))" : "\(createdHoursAgo)") + createdHoursAgo > 24.0 ? "days" : "hours"
+            var notify = !commit.draft && createdHoursAgo > (
                     Double(configuration.discord.tagtreshold)
-                ) ? (commit.draft ?? false) ?
-                "" :
-                    String(
-                        format: " ⚠️ <@&%s>",
-                        configuration.discord.tag ?? "reviewers"
-                    ) : ""
-            )
+                ) ? " ⚠️ <@&\(configuration.discord.tag ?? "reviewers")>") : ""
+        
+            commits += "- [\(commit.title)](\(commit.html_url)) by [\(commit.user.login)](\(commit.user.html_url))\(isDraft), \(createdAgo) ago\(notify)\r\n"
         }
 
-        discordArray["content"] = String(
-            format: "The current amount of open PR's is %s, below a list with open PR's.\r\n%s%s",
-            String(
-                format: "[%s](%s)",
-                PRCount?.count ?? 0,
-                repo.html_url + "/pulls"
-            ),
-            commits,
-            "‎ " // Left to right mark, to preserve space.
-        )
+        discordArray["content"] = "The current amount of open PR's is [\(PRCount?.count ?? 0)](\(repo.html_url + "/pulls")), below a list with open PR's.\r\n\(commits) "
     }
 
     // Add the embed array to the discord array.
