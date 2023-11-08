@@ -134,8 +134,8 @@ func parseRepo(repo: GitHubRepo) {
     // Create a new array for the discord message.
     var discordArray = [String: Any]()
 
-    if configuration.discord.message != "" {
-        discordArray["content"] = configuration.discord.message
+    if let message = configuration.discord.message {
+        discordArray["content"] = message
     }
 
     discordArray["username"] = configuration.discord.username
@@ -162,16 +162,16 @@ func parseRepo(repo: GitHubRepo) {
     discordEmbedArray["timestamp"] = timestamp
     discordEmbedArray["color"] = Int(configuration.discord.color ?? "3366ff", radix: 16)
 
-    if configuration.discord.footer?.text != "" {
+    if let footerText = configuration.discord.footer?.text {
         discordEmbedArray["footer"] = [
-            "text": configuration.discord.footer?.text ?? "",
+            "text": footerText,
             "icon_url": configuration.discord.footer?.icon_url ?? ""
         ]
     }
 
-    if configuration.discord.image != "" {
+    if let imageURL = configuration.discord.image {
         discordEmbedArray["image"] = [
-            "url": configuration.discord.image ?? ""
+            "url": imageURL
         ]
     }
 
