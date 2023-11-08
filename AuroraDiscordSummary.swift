@@ -24,7 +24,7 @@ struct Configuration: Codable {
 
     struct GitHub: Codable {
         let url: String
-        let token: String
+        let token: String?
         let repos: [String]
     }
 
@@ -95,12 +95,6 @@ struct GitHubWatchers: Codable {
     var login: String
 }
 
-struct Embed {
-    var name: String
-    var value: String
-    var inline: Bool
-
-}
 // Fail if the config file doesn't exist.
 if !FileManager.default.fileExists(atPath: "config.json") {
     print("Config file not found.")
@@ -323,8 +317,8 @@ func fetchData<T: Codable>(url fromURL: String) -> T? {
     request.setValue("en", forHTTPHeaderField: "Accept-language")
     request.setValue("Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us)", forHTTPHeaderField: "User-Agent")
 
-    if configuration.github.token != "" {
-        request.setValue("Bearer \(configuration.github.token)", forHTTPHeaderField: "Authorization")
+    if let token = configuration.github.token {
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     }
 
     request.httpMethod = "GET"
