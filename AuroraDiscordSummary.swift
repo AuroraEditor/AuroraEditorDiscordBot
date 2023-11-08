@@ -54,6 +54,7 @@ struct Configuration: Codable {
 
 struct GitHubRepo: Codable {
     let name: String
+    let full_name: String
     let owner: Owner
     let html_url: String
     let forks_count: Int
@@ -164,10 +165,10 @@ func parseRepo(repo: GitHubRepo) {
 
     discordEmbedArray["description"] = String(
         format: configuration.discord.description ?? "These are the statistics for [%s](https://github.com/%s),\r\nupdated on %s.",
-        repo.name,
-        repo.name,
+        repo.full_name,
+        repo.full_name,
         timestamp.description(with: .current)
-    )
+    ) + "\r\n"
 
     discordEmbedArray["url"] = configuration.discord.url ?? "https://auroraeditor.com"
     discordEmbedArray["timestamp"] = formatter.string(from: timestamp)
