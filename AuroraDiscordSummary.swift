@@ -81,7 +81,7 @@ struct GitHubPullRequests: Codable {
     var html_url: String
     var user: User
     var draft: Bool
-    // var createdAt: Date
+    var created_at: String
 
     struct User: Codable {
         var login: String
@@ -245,10 +245,9 @@ func parseRepo(repo: GitHubRepo) {
 
     // Tag the reviewers if there are open PR's.
     var commits = ""
-
         for commit in PRCount ?? [] {
-            let createdHoursAgo = 0.0
-            // This has a segfault?, so disabled for now.
+            let createdHoursAgo = 0.0 // TODO: make this work commit.createdAt = "2023-11-07T19:51:29Z" 
+           
             // round(
             //     (timestamp.timeIntervalSince1970 - commit.createdAt.timeIntervalSince1970) / 3600
             // )
@@ -261,7 +260,9 @@ func parseRepo(repo: GitHubRepo) {
             commits += "- [\(commit.title)](\(commit.html_url)) by [\(commit.user.login)](\(commit.user.html_url))\(isDraft), \(createdAgo) ago\(notify)\r\n"
         }
 
-        discordArray["content"] = "The current amount of open PR's is [\(PRCount?.count ?? 0)](\(repo.html_url + "/pulls")), below a list with open PR's.\r\n\(commits) "
+        if PRCount?.count ?? 0 > 0 {
+            discordArray["content"] = "The current amount of open PR's is [\(PRCount?.count ?? 0)](\(repo.html_url + "/pulls")), below a list with open PR's.\r\n\(commits) "
+        }
 
     // Add the embed array to the discord array.
     discordArray["embeds"] = [discordEmbedArray]
