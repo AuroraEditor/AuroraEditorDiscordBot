@@ -40,7 +40,7 @@ jobs:
                   \"webhook\": \"$WEBHOOK\",
                   \"tag\": $ROLE,
                   \"tagtreshold\": 24,
-                  \"username\": \"AuroraEditor\",
+                  \"username\": \"Aurora Care Bear\",
                   \"avatar\": \"https://avatars.githubusercontent.com/u/123369531?v=4\",
                   \"title\": \"Aurora Editor Stats\",
                   \"description\": \"These are the statistics for [AuroraEditor/%@](https://github.com/AuroraEditor/%@),\r\nupdated on %@.\",
