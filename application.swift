@@ -268,9 +268,8 @@ func parseRepo(repo: GitHubRepo) {
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     var keeprunning = true
-    URLSession.shared.dataTask(with: request) { ddata, response, error in
-        // If it fails, it fails.
-        dump([ddata,response,error])
+    URLSession.shared.dataTask(with: request) { data, response, error in
+        dump([String(decoding: data, as: UTF8.self), json_data])
         keeprunning = false
     }.resume()
 
