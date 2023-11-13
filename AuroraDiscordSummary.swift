@@ -244,7 +244,7 @@ func parseRepo(repo: GitHubRepo) {
         for commit in PRCount ?? [] {
             let createdHoursAgo = calculateHours(inputDate: commit.created_at)
             let isDraft = commit.draft ? " _(Draft)_" : ""
-            let createdAgo = (createdHoursAgo > 24 ? "\(createdHoursAgo / 24)" : "\(createdHoursAgo)") + (createdHoursAgo > 24 ? "days" : "hours")
+            let createdAgo = (createdHoursAgo > 24 ? "\(createdHoursAgo / 24)" : "\(createdHoursAgo)") + " " + (createdHoursAgo > 24 ? "days" : "hours")
             let notify = !commit.draft && createdHoursAgo > configuration.discord.tagtreshold ? " ⚠️ <@&\(configuration.discord.tag)>" : ""
         
             commits += "- [\(commit.title)](\(commit.html_url)) by [\(commit.user.login)](\(commit.user.html_url))\(isDraft), \(createdAgo) ago\(notify)\r\n"
