@@ -1,0 +1,21 @@
+name: Send summary to Discord.
+on:
+  schedule:
+    # Run once a month on the 1st day
+    - cron:  '0 6 1 * *'
+  workflow_dispatch:
+
+jobs:
+  aurora_discord_summary:
+    if: github.repository_owner == 'AuroraEditor'
+    runs-on: ubuntu-latest   
+    steps:
+      - uses: actions/checkout@v3
+      - name: Update last run
+        run: |
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          date > keep_alive.txt
+          git add keep_alive.txt
+          git commit -m "Update repo"
+          git push origin HEAD:main
