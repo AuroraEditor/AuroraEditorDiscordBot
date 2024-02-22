@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  aurora_discord_summary:
+  update_repo:
     if: github.repository_owner == 'AuroraEditor'
     runs-on: ubuntu-latest   
     steps:
