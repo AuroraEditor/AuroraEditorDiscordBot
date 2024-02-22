@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <h1 align="center">AuroraEditor Discord Bot</h1>
+  <h1 align="center">Aurora Editor Discord Bot</h1>
 </p>
 
 <p align="center">
