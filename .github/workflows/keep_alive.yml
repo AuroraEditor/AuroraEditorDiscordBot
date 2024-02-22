@@ -1,4 +1,4 @@
-name: Send summary to Discord.
+name: Update repo.
 on:
   schedule:
     # Run once a month on the 1st day
