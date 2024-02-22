@@ -15,7 +15,7 @@ jobs:
         run: |
           git config --global user.name 'aurora-care-bear'
           git config --global user.email 'aurora-care-bear@users.noreply.github.com'
-          git remote set-url --push origin https://aurora-care-bear:$BOT_TOKEN@github.com/AuroraEditor/auroraeditor.com
+          git remote set-url --push origin https://aurora-care-bear:$BOT_TOKEN@github.com/AuroraEditor/AuroraEditorDiscordBot
           date > keep_alive.txt
           git add keep_alive.txt
           git commit -m "Update repo"
