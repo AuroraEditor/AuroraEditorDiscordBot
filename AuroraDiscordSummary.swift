@@ -272,8 +272,7 @@ func parseRepo(repo: GitHubRepo) {
 
          var keeprunning = true
          URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data,
-                  let response = response as? HTTPURLResponse,
+            guard let response = response as? HTTPURLResponse,
                   error == nil
              else {
                  print("HTTP ERROR")
@@ -352,10 +351,15 @@ func fetchData<T: Codable>(url fromURL: String) -> T? {
         // We need this because otherwise the application will end before doing the call
     }
 
+    guard let data = data else {
+        print("No data received from \(fromURL)")
+        exit(5)
+    }
+
     do {
         let json = try JSONDecoder().decode(
             T.self,
-            from: data!
+            from: data
         )
 
         return json
