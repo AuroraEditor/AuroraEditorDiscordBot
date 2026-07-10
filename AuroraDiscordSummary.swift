@@ -354,7 +354,6 @@ func fetchData<T: Codable>(url fromURL: String) -> T? {
 
     guard let data = data else {
         print("No data received from \(fromURL)")
-        exit(5)
     }
 
     do {
