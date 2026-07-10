@@ -317,6 +317,7 @@ func fetchData<T: Codable>(url fromURL: String) -> T? {
     request.setValue("Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us)", forHTTPHeaderField: "User-Agent")
 
     if let token = configuration.github.token {
+        print("Using GitHub token for authentication.")
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     }
 
